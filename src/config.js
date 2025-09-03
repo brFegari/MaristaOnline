@@ -5,7 +5,14 @@ module.exports = {
   debugSaveHtml: false,
 
   selectors: {
-    email: 'input[type=email], input[name*=email i], input#email',
+    email: [
+      'input[type=text]',
+      'input[type=email]',
+      'input[name*=email i]',
+      'input[name*=matric i]',
+      'input#login',
+      'input#usuario'
+    ],
     password: 'input[type=password], input[name*=senha i], input#senha',
     submit: 'button[type=submit], input[type=submit], button[id*=entrar i], button:has(> span:contains("Entrar"))',
 

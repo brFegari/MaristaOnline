@@ -149,13 +149,23 @@ async function scrapeGrades({ email, password }) {
       await page.type(passSel, password, { delay: 15 });
 
     // Envia
-    const submit = await page.$(config.selectors.submit);
-    if (submit) {
-      await submit.click();
+    const buttons = await page.$$(config.selectors.submit);
+    let submitBtn = null;
+    
+    for (const btn of buttons) {
+      const text = await page.evaluate(el => el.innerText, btn);
+      if (text && text.toLowerCase().includes('entrar')) {
+        submitBtn = btn;
+        break;
+      }
+    }
+    
+    if (submitBtn) {
+      await submitBtn.click();
     } else {
+      // fallback: tecla Enter
       await page.keyboard.press('Enter');
     }
-
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: config.timeouts.nav }).catch(()=>{});
     await maybeSave(page, '02-after-login.html');
 

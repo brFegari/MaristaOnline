@@ -116,9 +116,10 @@ async function extractTable(page) {
 async function scrapeGrades({ email, password }) {
   const browser = await puppeteer.launch({
     headless: process.env.HEADLESS !== 'false',
-    executablePath: puppeteer.executablePath(), // garante que usa o Chromium baixado
+    executablePath: puppeteer.executablePath(), // pega o binário certo
     args: config.chromiumFlags
   });
+
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(config.timeouts.nav);
 

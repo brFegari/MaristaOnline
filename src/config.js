@@ -14,7 +14,7 @@ module.exports = {
       'input#usuario'
     ],
     password: 'input[type=password], input[name*=senha i], input#senha',
-    submit: 'button[type=submit], input[type=submit], button[id*=entrar i], button:has(> span:contains("Entrar"))',
+    submit: 'button[type=submit], input[type=submit], button[id*=entrar i], button span'
 
     // Após login, pode haver um select/lista de unidades
     unitSelect: 'select, #unidade, [name*=unidade i]',

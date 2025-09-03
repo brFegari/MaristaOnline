@@ -126,10 +126,23 @@ async function scrapeGrades({ email, password }) {
     await maybeSave(page, '01-login.html');
 
     // Preenche login
-    const emailSel = await waitForAny(page, config.selectors.email, config.timeouts.nav);
-    await page.type(emailSel, email, { delay: 15 });
-    const passSel = await waitForAny(page, config.selectors.password, config.timeouts.nav);
-    await page.type(passSel, password, { delay: 15 });
+    // Preenche login (email ou matrícula)
+      let emailSel;
+      try {
+        emailSel = await waitForAny(page, config.selectors.email, config.timeouts.nav);
+      } catch {
+        throw new Error('Não encontrei o campo de login (e-mail/matrícula).');
+      }
+      await page.type(emailSel, email, { delay: 15 });
+      
+      // Senha
+      let passSel;
+      try {
+        passSel = await waitForAny(page, config.selectors.password, config.timeouts.nav);
+      } catch {
+        throw new Error('Não encontrei o campo de senha.');
+      }
+      await page.type(passSel, password, { delay: 15 });
 
     // Envia
     const submit = await page.$(config.selectors.submit);

@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require('puppeteer');
 const config = require('./config');
+const puppeteer = require('puppeteer-core');
+const chromium = require('chromium');
+
 
 async function maybeSave(page, name) {
   if (!config.debugSaveHtml) return null;

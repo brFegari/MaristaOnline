@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: maristas-grade-dashboard
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    autoDeploy: true
+    envVars:
+      - key: HEADLESS
+        value: "true"

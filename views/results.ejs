@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resultados - Dashboard de Notas</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Seus Resultados</h1>
+        <div class="small">Página analisada: <strong><%= meta.url %></strong> • Coletado em <%= new Date(meta.fetchedAt).toLocaleString('pt-BR') %></div>
+        <% if (rawHtmlSaved) { %>
+          <div class="note">Debug de HTML salvo na pasta <code>tmp/</code> no servidor.</div>
+        <% } %>
+        <hr />
+
+        <h2>Piores notas</h2>
+        <table class="table">
+          <thead><tr><th>Disciplina</th><th>Avaliação</th><th>Nota</th></tr></thead>
+          <tbody>
+            <% insights.worst.slice(0, 12).forEach(w => { %>
+              <tr>
+                <td><%= w.subject %></td>
+                <td><%= w.assessment %></td>
+                <td class="bad"><%= w.grade %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <h2>Médias por disciplina</h2>
+        <table class="table">
+          <thead><tr><th>Disciplina</th><th># Avaliações</th><th>Média</th><th>Precisa tirar (próxima) p/ média <%= params.targetAvg %></th></tr></thead>
+          <tbody>
+            <% insights.subjects.forEach(s => { %>
+              <tr>
+                <td><%= s.subject %></td>
+                <td><%= s.count %></td>
+                <td><%= s.average %></td>
+                <td><%= s.neededNextToReachTarget %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <hr />
+        <h2>Dados brutos extraídos</h2>
+        <div class="small">Primeiras 50 linhas (caso precise depurar).</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <% if (rows[0]) { Object.keys(rows[0]).forEach(h => { %>
+                <th><%= h %></th>
+              <% }) } %>
+            </tr>
+          </thead>
+          <tbody>
+            <% rows.slice(0,50).forEach(r => { %>
+              <tr>
+                <% Object.keys(rows[0] || {}).forEach(h => { %>
+                  <td><%= r[h] %></td>
+                <% }) %>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <hr />
+        <a href="/" style="display:inline-block;margin-top:12px"><button>Voltar</button></a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -3,7 +3,8 @@ services:
     name: maristas-grade-dashboard
     env: node
     plan: free
-    buildCommand: "npm install"
+    buildCommand: |
+      PUPPETEER_SKIP_DOWNLOAD=false npm install
     startCommand: "npm start"
     autoDeploy: true
     envVars:

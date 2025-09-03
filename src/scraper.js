@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const chromium = require('chromium');
 
 
@@ -118,9 +118,10 @@ async function extractTable(page) {
 async function scrapeGrades({ email, password }) {
   const browser = await puppeteer.launch({
     headless: process.env.HEADLESS !== 'false',
-    executablePath: chromium.path,  // usa o binário do pacote "chromium"
+    executablePath: puppeteer.executablePath(),
     args: config.chromiumFlags
   });
+
 
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(config.timeouts.nav);
